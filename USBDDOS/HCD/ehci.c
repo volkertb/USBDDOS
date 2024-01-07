@@ -174,7 +174,7 @@ BOOL EHCI_InitController(HCD_Interface * pHCI, PCI_DEVICE* pPCIDev)
         {
             uint32_t pa = OperationalBase+PORTSC+i*4U;
             DPMI_StoreD(pa, PortEnable|PortPower); //PortEnable won't enable port but avoid disabling it
-            delay(2); //spec require 2ms to enable ports with high speed devices after reset
+            delay(50); //spec require 2ms to enable ports with high speed devices after reset, but maybe 50s works beter
             uint32_t status = DPMI_LoadD(pa);
             if((status&ConnectStatus) && !(status&PortEnable)) //not enabled: low/full speed
                 DPMI_StoreD(pa, PortOwner); //handoff to companion HC
